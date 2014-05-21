@@ -22,19 +22,18 @@
 - (NSLayoutConstraint *)pinToCenterInContainerOnAxis:(UILayoutConstraintAxis)axis;
 
 - (NSLayoutConstraint *)pinToContainerEdge:(NSLayoutAttribute)edge;
-- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView edge:(NSLayoutAttribute)otherEdge;
-- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView;
+- (NSLayoutConstraint *)pinToContainerEdge:(NSLayoutAttribute)edge withRelation:(NSLayoutRelation)relation;
+
+- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView edge:(NSLayoutAttribute)otherEdge
+                   withRelation:(NSLayoutRelation)relation;
+- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView withRelation:(NSLayoutRelation)relation;
 
 - (NSArray *)pinToFillContainer;
 - (NSArray *)pinToFillContainerOnAxis:(UILayoutConstraintAxis)axis;
-- (NSArray *)pinViews:(NSArray *)views toFillContainerOnAxis:(UILayoutConstraintAxis)axis;
 
 - (NSArray *)pinEqualToView:(UIView *)view;
 - (NSLayoutConstraint *)pinEqualToView:(UIView *)view attribute:(NSLayoutAttribute)attribute;
 
-- (NSArray *)pinInContainerWithVisualFormat:(NSString *)format;
-
-- (void)pin:(NSArray *)expressions owner:(id)owner;
 - (void)pin:(NSString *)expression options:(NSLayoutFormatOptions)options owner:(id)owner;
 
 @end

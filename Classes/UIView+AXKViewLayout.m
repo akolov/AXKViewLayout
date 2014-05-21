@@ -103,10 +103,10 @@
 
 #pragma mark - Pin to edge
 
-- (NSLayoutConstraint *)pinToContainerEdge:(NSLayoutAttribute)edge {
+- (NSLayoutConstraint *)pinToContainerEdge:(NSLayoutAttribute)edge withRelation:(NSLayoutRelation)relation {
   NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self
                                                                 attribute:edge
-                                                                relatedBy:NSLayoutRelationEqual
+                                                                relatedBy:relation
                                                                    toItem:self.superview
                                                                 attribute:edge
                                                                multiplier:1.0f
@@ -115,10 +115,15 @@
   return constraint;
 }
 
-- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView edge:(NSLayoutAttribute)otherEdge {
+- (NSLayoutConstraint *)pinToContainerEdge:(NSLayoutAttribute)edge {
+  return [self pinToContainerEdge:edge withRelation:NSLayoutRelationEqual];
+}
+
+- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView edge:(NSLayoutAttribute)otherEdge
+                   withRelation:(NSLayoutRelation)relation {
   NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self
                                                                 attribute:edge
-                                                                relatedBy:NSLayoutRelationEqual
+                                                                relatedBy:relation
                                                                    toItem:otherView
                                                                 attribute:otherEdge
                                                                multiplier:1.0f
@@ -127,8 +132,16 @@
   return constraint;
 }
 
+- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView edge:(NSLayoutAttribute)otherEdge {
+  return [self pinEdge:edge toView:otherView edge:otherEdge withRelation:NSLayoutRelationEqual]
+}
+
+- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView withRelation:(NSLayoutRelation)relation {
+  return [self pinEdge:edge toView:otherView edge:edge withRelation:relation];
+}
+
 - (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView {
-  return [self pinEdge:edge toView:otherView edge:edge];
+  return [self pinEdge:edge toView:otherView edge:edge withRelation:NSLayoutRelationEqual];
 }
 
 #pragma mark - Fill container
@@ -163,38 +176,6 @@
   return constraints;
 }
 
-- (NSArray *)pinViews:(NSArray *)views toFillContainerOnAxis:(UILayoutConstraintAxis)axis {
-  NSMutableArray *constraints = [NSMutableArray array];
-  if (axis == UILayoutConstraintAxisHorizontal) {
-    for (NSUInteger i = 0; i < views.count; ++i) {
-      UIView *view = views[i];
-      if (i != 0) {
-        [constraints addObject:[view pinEqualToView:views[i - 1] attribute:NSLayoutAttributeWidth]];
-        [constraints addObject:[view pinEdge:NSLayoutAttributeLeading toView:views[i - 1] edge:NSLayoutAttributeTrailing]];
-      }
-
-      [constraints addObject:[views.firstObject pinEdge:NSLayoutAttributeLeading toView:self]];
-      [constraints addObject:[views.lastObject pinEdge:NSLayoutAttributeTrailing toView:self]];
-      [constraints addObjectsFromArray:[view pinToFillContainerOnAxis:UILayoutConstraintAxisVertical]];
-    }
-  }
-  else {
-    for (NSUInteger i = 0; i < views.count; ++i) {
-      UIView *view = views[i];
-      if (i != 0) {
-        [constraints addObject:[view pinEqualToView:views[i - 1] attribute:NSLayoutAttributeHeight]];
-        [constraints addObject:[view pinEdge:NSLayoutAttributeTop toView:views[i - 1] edge:NSLayoutAttributeBottom]];
-      }
-
-      [constraints addObject:[views.firstObject pinEdge:NSLayoutAttributeTop toView:self]];
-      [constraints addObject:[views.lastObject pinEdge:NSLayoutAttributeBottom toView:self]];
-      [constraints addObjectsFromArray:[view pinToFillContainerOnAxis:UILayoutConstraintAxisHorizontal]];
-    }
-  }
-
-  return constraints;
-}
-
 #pragma mark - Pin equal
 
 - (NSArray *)pinEqualToView:(UIView *)view {
@@ -219,25 +200,6 @@
 }
 
 #pragma mark - Pin many views
-
-- (NSArray *)pinInContainerWithVisualFormat:(NSString *)format {
-  NSDictionary *const views = NSDictionaryOfVariableBindings(self);
-  NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:format options:0 metrics:nil views:views];
-  [self.superview addConstraints:constraints];
-  return constraints;
-}
-
-- (void)pin:(NSArray *)expressions views:(NSDictionary *)views {
-  for (NSString *expr in expressions) {
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:expr options:0 metrics:nil views:views]];
-  }
-}
-
-- (void)pin:(NSArray *)expressions owner:(id)owner {
-  for (NSString *x in expressions) {
-    [self pin:x options:0 owner:owner];
-  }
-}
 
 - (void)pin:(NSString *)expression options:(NSLayoutFormatOptions)options owner:(id)owner {
   NSError *error;
