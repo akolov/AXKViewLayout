@@ -24,9 +24,10 @@
 - (NSLayoutConstraint *)pinToContainerEdge:(NSLayoutAttribute)edge;
 - (NSLayoutConstraint *)pinToContainerEdge:(NSLayoutAttribute)edge withRelation:(NSLayoutRelation)relation;
 
-- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView edge:(NSLayoutAttribute)otherEdge
-                   withRelation:(NSLayoutRelation)relation;
+- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView edge:(NSLayoutAttribute)otherEdge withRelation:(NSLayoutRelation)relation;
+- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView edge:(NSLayoutAttribute)otherEdge;
 - (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView withRelation:(NSLayoutRelation)relation;
+- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView;
 
 - (NSArray *)pinToFillContainer;
 - (NSArray *)pinToFillContainerOnAxis:(UILayoutConstraintAxis)axis;
