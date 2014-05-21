@@ -133,7 +133,7 @@
 }
 
 - (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView edge:(NSLayoutAttribute)otherEdge {
-  return [self pinEdge:edge toView:otherView edge:otherEdge withRelation:NSLayoutRelationEqual]
+  return [self pinEdge:edge toView:otherView edge:otherEdge withRelation:NSLayoutRelationEqual];
 }
 
 - (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toView:(UIView *)otherView withRelation:(NSLayoutRelation)relation {
