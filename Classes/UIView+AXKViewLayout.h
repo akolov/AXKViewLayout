@@ -34,6 +34,7 @@
 
 - (NSArray *)pinEqualToView:(UIView *)view;
 - (NSLayoutConstraint *)pinEqualToView:(UIView *)view attribute:(NSLayoutAttribute)attribute;
+- (NSLayoutConstraint *)pinEqualToView:(UIView *)view attribute:(NSLayoutAttribute)attribute relation:(NSLayoutRelation)relation;
 
 - (void)pin:(NSString *)expression options:(NSLayoutFormatOptions)options owner:(id)owner;
 

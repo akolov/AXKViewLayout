@@ -188,9 +188,13 @@
 }
 
 - (NSLayoutConstraint *)pinEqualToView:(UIView *)view attribute:(NSLayoutAttribute)attribute {
+  return [self pinEqualToView:view attribute:attribute relation:NSLayoutRelationEqual];
+}
+
+- (NSLayoutConstraint *)pinEqualToView:(UIView *)view attribute:(NSLayoutAttribute)attribute relation:(NSLayoutRelation)relation {
   NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self
                                                                 attribute:attribute
-                                                                relatedBy:NSLayoutRelationEqual
+                                                                relatedBy:relation
                                                                    toItem:view
                                                                 attribute:attribute
                                                                multiplier:1.0f
